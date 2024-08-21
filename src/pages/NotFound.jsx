@@ -1,7 +1,13 @@
 import React from "react";
+import PageNav from "../components/PageNav";
 
 function NotFound() {
-  return <div>NotFound :(</div>;
+  return (
+    <div>
+      <PageNav />
+      <h1>NotFound :(</h1>
+    </div>
+  );
 }
 
 export default NotFound;
