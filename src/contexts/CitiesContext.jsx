@@ -30,13 +30,14 @@ function CitiesProvider({ children }) {
       setIsLoading(true);
       const res = await fetch(`${BASE_URL}/cities/${id}`);
       const data = await res.json();
-      setCities(data);
+      setCurrentCity(data);
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
     }
   };
+
   return (
     <CitiesContext.Provider value={{ cities, isLoading, currentCity, getCity }}>
       {children}
