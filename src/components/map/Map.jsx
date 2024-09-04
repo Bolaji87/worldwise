@@ -1,17 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Map.module.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { useCities } from "../../contexts/CitiesContext";
 
 const Map = () => {
+  const [mapPosition, setMapPosition] = useState([40, 0]);
+
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const lat = searchParams.get("lat");
-  const lng = searchParams.get("lng");
+  const mapLat = searchParams.get("lat");
+  const mapLng = searchParams.get("lng");
+
+  const { cities } = useCities();
 
   const navigate = useNavigate();
 
   return (
-    <div onClick={() => navigate("form")} className={styles.mapContainer}></div>
+    <div onClick={() => navigate("form")} className={styles.mapContainer}>
+      <MapContainer
+        center={mapPosition}
+        // center={[mapLat, mapLng]}
+        zoom={6}
+        scrollWheelZoom={true}
+        className={styles.map}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+        />
+
+        {cities.map((city) => (
+          <Marker
+            position={[city.position.lat, city.position.lng]}
+            key={city.id}
+          >
+            <Popup>
+              <span>{city.emoji}</span>
+              <span>{city.cityName}</span>
+            </Popup>
+          </Marker>
+        ))}
+      </MapContainer>
+    </div>
   );
 };
 
