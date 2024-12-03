@@ -10,9 +10,11 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import { useCities } from "../../contexts/CitiesContext";
+import { useGeolocation } from "../../hooks/useGeolocation";
 
 const Map = () => {
   const { cities = [] } = useCities();
+  const { getPosition } = useGeolocation();
 
   const [mapPosition, setMapPosition] = useState([40, 0]);
   const [searchParams] = useSearchParams();
